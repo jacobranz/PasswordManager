@@ -1,10 +1,11 @@
 import mysql.connector
+import maskpass
 
 
 def promptCreds():
     print("Please enter credentials to continue...")
     username = input("Username: ")
-    password = input("Password: ")
+    password = maskpass.askpass(prompt="Password: ", mask="#")
     creds = [username, password]
     return creds
 
