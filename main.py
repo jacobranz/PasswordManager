@@ -1,75 +1,31 @@
-from tkinter import * 
-from app_auth import *
+import mysql.connector
 
-class PassMan(Tk):
-    def __init__(self, *args, **kwargs):
-        Tk.__init__(self, *args, **kwargs)
-        self.title("PassMan")
 
-        container = Frame(self, height=500, width=500)
-        container.grid(row=0, column=0)
-        
-        container.grid_rowconfigure(0, weight=1)
-        container.grid_columnconfigure(0, weight=1)
+def promptCreds():
+    print("Please enter credentials to continue...")
+    username = input("Username: ")
+    password = input("Password: ")
+    creds = [username, password]
+    return creds
 
-        self.frames = {}
+def appLogin(username, password):
+    mydb = mysql.connector.connect(
+        host = "127.0.0.1",
+        user = username,
+        password = password,
+        database = "pass_manager"
+    )
+    return mydb
+    
+def testLogin(database):
+    cursor = database.cursor()
+    cursor.execute('''select * from vault''')
+    test = cursor.fetchall()
+    print(test)
 
-        for F in (LoginPage, SignUp):
-            frame = F(container, self)
-            self.frames[F] = frame
-            frame.grid(row=0, column=0, sticky="nsew")
+def main():
+    creds = promptCreds()
+    databse = appLogin(creds[0], creds[1])
+    testLogin(databse)
 
-        self.show_frame(LoginPage)
-
-    def show_frame(self, cont):
-        frame = self.frames[cont]
-        frame.tkraise()
-
-class LoginPage(Frame):
-    def __init__(self, parent, controller):
-        Frame.__init__(self, parent)
-        label = Label(self, text="Login to PassMan")
-        label.grid(row=0, column=1)
-
-        username_label = Label(self, text="Username")
-        password_label = Label(self, text="Password")
-        username_entry = Entry(self)
-        password_entry = Entry(self)
-
-        username_label.grid(row=1, column=0)
-        password_label.grid(row=2, column=0)
-        username_entry.grid(row=1, column=1)
-        password_entry.grid(row=2, column=1)
-
-        switch_window_button = Button(self, text="Sign Up", command=lambda: controller.show_frame(SignUp))
-        switch_window_button.grid(row=6, column=1)
-
-class SignUp(Frame):
-    def __init__(self, parent, controller):
-        Frame.__init__(self, parent)
-        label = Label(self, text="Sign Up for PassMan")
-        label.grid(row=0, column=1)
-
-        new_user = StringVar()
-        new_user_pass = StringVar()
-
-        username_label = Label(self, text="Username")
-        password_label = Label(self, text="Password")
-        password_verify_label = Label(self, text="Re-enter Password")
-        username_entry = Entry(self, textvariable=new_user)
-        password_entry = Entry(self, textvariable=new_user_pass)
-
-        username_label.grid(row=1, column=0)
-        password_label.grid(row=2, column=0)
-        username_entry.grid(row=1, column=1)
-        password_entry.grid(row=2, column=1)
-        password_verify_label.grid(row=3, column=0)
-
-        signup_button = Button(self, text="Sign Up", command=lambda: signUp_graphical(new_user.get(), new_user_pass.get()))
-        signup_button.grid(row=7, column=1)
-        switch_window_button = Button(self, text="Back to Login", command=lambda: controller.show_frame(LoginPage))
-        switch_window_button.grid(row=6, column=1)
-
-if __name__ == "__main__":
-    test = PassMan()
-    test.mainloop()
+main()
