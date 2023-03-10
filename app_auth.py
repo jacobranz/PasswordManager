@@ -1,4 +1,3 @@
-import mysql.connector
 import maskpass
 import database_connection
 import database_commands
@@ -6,21 +5,32 @@ import password_manager
 
 
 def signUp():
-    print("\n===============Sign Up===============\n")
-    new_user = input("Please choose a username: ")
-    new_user_pass = input("Please enter a password: ")
-    database_connection.cursor.execute("insert into auth values (%s, %s)", (new_user, new_user_pass))
-    database_connection.mydb.commit()
-    promptCreds()
+    while True:
+        try:
+            print("\n===============Sign Up===============\n")
+            new_user = input("Please choose a username: ")
+            database_commands.detectDuplicate(new_user)
+            new_user_pass = maskpass.askpass("Please enter a password: ")
+            database_connection.cursor.execute("insert into auth values (%s, %s)", (new_user, new_user_pass))
+            database_connection.mydb.commit()
+        except:
+            continue
+        break
 
 def promptCreds():
-    print("\n===============Login===============\n")
-    username = input("Username: ")
-    database_commands.queryUser(username)
-    password = maskpass.askpass(prompt="Password: ", mask="#")
-    database_commands.queryPass(username, password)
-    creds = [username, password]
-    return creds
+    while True:
+        try:
+            print("\n===============Login===============\n")
+            username = input("Username: ")
+            database_commands.queryUser(username)
+            password = maskpass.askpass(prompt="Password: ")
+            database_commands.queryPass(username, password)
+            creds = [username, password]
+            return creds
+        except:
+            continue
+        break
+    
 
 def appLogin(username, password):
     """
@@ -41,6 +51,7 @@ def testLogin(database):
     print(test)
 
 def main():
+    signUp()
     creds = promptCreds()
     appLogin(creds[0], creds[1])
 
