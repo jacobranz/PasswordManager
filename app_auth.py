@@ -1,7 +1,6 @@
 import maskpass
 import database_connection
 import database_commands
-import password_manager
 
 
 def signUp():
@@ -42,7 +41,7 @@ def appLogin(username, password):
     )
     return mydb
     """
-    password_manager.success()
+    print("You have successfully authenticated!")
     
 def testLogin(database):
     cursor = database.cursor()
@@ -50,9 +49,10 @@ def testLogin(database):
     test = cursor.fetchall()
     print(test)
 
-def main():
-    signUp()
-    creds = promptCreds()
-    appLogin(creds[0], creds[1])
+#def main():
+    #signUp()
+    #creds = promptCreds()
+    #appLogin(creds[0], creds[1])
+    #password_manager.mainMenu()
 
-main()
+#main()

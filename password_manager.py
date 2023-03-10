@@ -1,10 +1,52 @@
-'''
-This file will be the main application where users 
-interact and perform all input. Capabilities such as 
-creating new entries, modifying existing entries,
-and querying entries will all happen through this 
-file.
-'''
+import os
+import app_auth
 
-def success():
-    print("You have successfully authenticated!")
+def mainMenu():
+    os.system('clear')
+    print("""
+    \n\n
+--------------------------------------------
+----- Welcome to Password Manager 1.0! -----
+--------------------------------------------
+""")
+    print("""
+1. Sign up
+2. Login
+\n""")
+
+    answer = int(input(">> "))
+    match answer:
+        case 1:
+            app_auth.signUp()
+        case 2:
+            app_auth.promptCreds()
+        case _:
+            print("Invalid option selected")
+
+def userOptions():
+    os.system('clear')
+    print("""
+---------------------------------------------
+1. Create new entry
+2. Modify entry
+3. Delete entry
+4. View existing entry
+---------------------------------------------""")
+    user_choice = int(input(">> "))
+    match user_choice:
+        case 1:
+            print("You have selected to create a new entry.")
+        case 2: 
+            print("You have chosen to modify an existing entry.")
+        case 3:
+            print("You have chosen to delete an existing entry.")
+        case 4:
+            print("You have chosen to view an existing entry.")
+        case _:
+            print("You have not selected a valid option.")
+
+def main():
+    mainMenu()
+    userOptions()
+
+main()

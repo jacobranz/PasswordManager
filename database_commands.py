@@ -18,6 +18,8 @@ def queryPass(username, password):
         os.system('clear')
         print(f"ERROR! Password for user '{username}' is incorrect!")
         raise ValueError
+    else:
+        print("You have sucessfully authenticated!")
 
 def detectDuplicate(new_user):
     database_connection.cursor.execute("select * from auth where username = %s", (new_user,))
