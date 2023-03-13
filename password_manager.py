@@ -44,11 +44,12 @@ def userOptions():
             link = str(input("Enter link: "))
             comment = str(input("Comments: "))
             modified_python = datetime.now()
-            modified_sql = modified_python.strftime("%Y-%m-%d %H:%M:%S")
-            #id = 1
+            modified_sql = modified_python.strftime("%Y-%m-%d")
             database_commands.newEntry(loginID, username, password, link, comment, modified_sql)
         case 2: 
             print("You have chosen to modify an existing entry.")
+            loginID = app_auth.promptCreds()[0]
+            database_commands.modifyEntry(loginID)
         case 3:
             print("You have chosen to delete an existing entry.")
         case 4:
