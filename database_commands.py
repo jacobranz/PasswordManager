@@ -40,16 +40,14 @@ def newEntry(loginID, username, password, link, comment, modified_sql):
 
 def modifyEntry(loginID):
     print("What entry would you like to modify?")
-    database_connection.cursor.execute("""select * from vault
+    database_connection.cursor.execute("""select id, loginID, username, pass, link, comment from vault
                                         where username = %s""", (loginID,))
     user_info = database_connection.cursor.fetchall()
     all_entries = PrettyTable()
-    all_entries.field_names = ["ID", "LoginID", "Username", "Password", "Link", "Comment", "Date Modified"]
+    all_entries.field_names = ["ID", "LoginID", "Username", "Password", "Link", "Comment"]
     i = 0
     entry_tmp = []
     while i <= len(user_info):
         for entry in user_info:
-            for field in entry:
-                entry_tmp.append(str(field))
-        all_entries.add_row(field)
+            all_entries.add_row(entry)
     print(all_entries)
