@@ -1,5 +1,7 @@
 import os
 import app_auth
+import database_commands
+from datetime import datetime
 
 def mainMenu():
     os.system('clear')
@@ -36,6 +38,15 @@ def userOptions():
     match user_choice:
         case 1:
             print("You have selected to create a new entry.")
+            loginID = app_auth.promptCreds()[0]
+            username = str(input("Enter username: "))
+            password = str(input("Enter password: "))
+            link = str(input("Enter link: "))
+            comment = str(input("Comments: "))
+            modified_python = datetime.now()
+            modified_sql = modified_python.strftime("%Y-%m-%d %H:%M:%S")
+            #id = 1
+            database_commands.newEntry(loginID, username, password, link, comment, modified_sql)
         case 2: 
             print("You have chosen to modify an existing entry.")
         case 3:

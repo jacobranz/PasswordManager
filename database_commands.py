@@ -32,3 +32,7 @@ def detectDuplicate(new_user):
             raise ValueError
         else:
             sys.exit()
+
+def newEntry(loginID, username, password, link, comment, modified_sql):
+    database_connection.cursor.execute("insert into vault (loginID, username, pass, link, comment, modified) values (%s, %s, %s, %s, %s, %s)", (loginID, username, password, link, comment, modified_sql))
+    database_connection.mydb.commit()
