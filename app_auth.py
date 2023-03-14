@@ -20,34 +20,18 @@ def promptCreds():
     while True:
         try:
             print("\n===============Login===============\n")
-            username = input("Username: ")
-            database_commands.queryUser(username)
+            global loginID
+            loginID = input("Username: ")
+            database_commands.queryUser(loginID)
             password = maskpass.askpass(prompt="Password: ")
-            database_commands.queryPass(username, password)
-            creds = [username, password]
-            return creds
+            database_commands.queryPass(loginID, password)
+            creds = [loginID, password]
         except:
             continue
         break
-    
 
-def appLogin(username, password):
-    """
-    mydb = mysql.connector.connect(
-        host = "127.0.0.1",
-        user = username,
-        password = password,
-        database = "pass_manager"
-    )
-    return mydb
-    """
-    print("You have successfully authenticated!")
-    
-def testLogin(database):
-    cursor = database.cursor()
-    cursor.execute('''select * from vault''')
-    test = cursor.fetchall()
-    print(test)
+def getLoginID():
+    return loginID
 
 #def main():
     #signUp()

@@ -38,7 +38,7 @@ def userOptions():
     match user_choice:
         case 1:
             print("You have selected to create a new entry.")
-            loginID = app_auth.promptCreds()[0]
+            loginID = app_auth.loginID
             username = str(input("Enter username: "))
             password = str(input("Enter password: "))
             link = str(input("Enter link: "))
@@ -47,9 +47,18 @@ def userOptions():
             modified_sql = modified_python.strftime("%Y-%m-%d")
             database_commands.newEntry(loginID, username, password, link, comment, modified_sql)
         case 2: 
-            print("You have chosen to modify an existing entry.")
-            loginID = app_auth.promptCreds()[0]
+            os.system('clear')
+            print(">> What entry would you like to modify?\n")
+            loginID = app_auth.getLoginID()
             database_commands.modifyEntry(loginID)
+            user_selection = input(">> ").split(",")
+            for selection in user_selection:
+                is_valid = database_commands.queryEntryID(selection)
+                if int(selection) == is_valid:
+                    print(">> You have selected a valid id")
+                else:
+                    print(f"Entry with the id '{selection}' is not a valid entry!")
+                
         case 3:
             print("You have chosen to delete an existing entry.")
         case 4:
