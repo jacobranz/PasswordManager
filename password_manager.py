@@ -50,12 +50,15 @@ def userOptions():
             os.system('clear')
             print(">> What entry would you like to modify?\n")
             loginID = app_auth.getLoginID()
-            database_commands.modifyEntry(loginID)
+            database_commands.queryEntry(loginID)
             user_selection = input(">> ").split(",")
+            modified_entries = {}
             for selection in user_selection:
                 is_valid = database_commands.queryEntryID(selection)
                 if int(selection) == is_valid:
                     print(">> You have selected a valid id")
+                    
+                    database_commands.modifyEntry(modified_entries)
                 else:
                     print(f"Entry with the id '{selection}' is not a valid entry!")
                 
