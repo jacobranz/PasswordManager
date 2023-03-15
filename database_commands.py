@@ -48,13 +48,15 @@ def queryEntry(loginID):
                                         where loginID = %s""", (loginID,))
     user_info = database_connection.cursor.fetchall()
     all_entries = PrettyTable()
-    all_entries.field_names = ["ID", "Username", "Password", "Link", "Comment"]
+    all_entries.field_names = ["id", "username", "pass", "link", "comment"]
     i = 0
     while i < len(user_info):
         for entry in user_info:
             all_entries.add_row(entry)
             i += 1
     print(all_entries)
+    return all_entries.field_names
     
-def modifyEntry(modified_entries):
-    database_connection.cursor.execute("update vault set %s")
+def modifyEntry(column, y, x):
+    database_connection.cursor.execute("update vault set %s = '%s' where id = %s", (column, y, x))
+    database_connection.mydb.commit()

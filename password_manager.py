@@ -1,6 +1,7 @@
 import os
 import app_auth
 import database_commands
+from database_commands import *
 from datetime import datetime
 
 def mainMenu():
@@ -52,13 +53,23 @@ def userOptions():
             loginID = app_auth.getLoginID()
             database_commands.queryEntry(loginID)
             user_selection = input(">> ").split(",")
-            modified_entries = {}
+            modify_options = {}
+            modify = {}
             for selection in user_selection:
                 is_valid = database_commands.queryEntryID(selection)
                 if int(selection) == is_valid:
                     print(">> You have selected a valid id")
-                    
-                    database_commands.modifyEntry(modified_entries)
+                    get_column_names = queryEntry(loginID)
+                    i = 1
+                    while i < len(get_column_names):
+                        for column in get_column_names:
+                            print(f"{i}. {column}")
+                            modify_options[i]=column
+                            i += 1
+                        test = input("\n>> What value would you like to modify?\n>> ").split(",")
+                        for x, column in test, get_column_names:
+                            y = str(input(f">> Update '{modify_options[int(x)]}': "))
+                            database_commands.modifyEntry(column, y, int(x))
                 else:
                     print(f"Entry with the id '{selection}' is not a valid entry!")
                 
