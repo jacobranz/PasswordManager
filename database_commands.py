@@ -58,5 +58,6 @@ def queryEntry(loginID):
     return all_entries.field_names
     
 def modifyEntry(column, y, x):
-    database_connection.cursor.execute("update vault set %s = '%s' where id = %s", (column, y, x))
+    sql = "update vault set {} = %s where id = %s".format(column)
+    database_connection.cursor.execute(sql, (y, x))
     database_connection.mydb.commit()
