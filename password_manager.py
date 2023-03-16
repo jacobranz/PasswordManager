@@ -32,7 +32,7 @@ def userOptions():
 1. Create new entry
 2. Modify entry
 3. Delete entry
-4. View existing entry
+4. View all entries
 ---------------------------------------------""")
     user_choice = int(input(">> "))
     match user_choice:
@@ -63,9 +63,9 @@ def userOptions():
                     print(">> You have selected a valid id")
                     get_column_names = queryEntry(loginID)
                     os.system('clear')
+
                     querySingleEntry(loginID, selection)
                     i = 1
-
                     while i < len(get_column_names):
                         for column in get_column_names:
                             print(f"{i}. {column}")
@@ -81,8 +81,32 @@ def userOptions():
                 
         case 3:
             print("You have chosen to delete an existing entry.")
+            os.system('clear')
+            print(">> What entry would you like to remove?\n")
+            loginID = app_auth.getLoginID()
+            queryEntry(loginID)
+            user_delete_selection = input(">> ").split(",")
+
+            for selection in user_delete_selection:
+                is_valid = queryEntryID(selection)
+
+                if int(selection) == is_valid:
+                    print(">> You have selected a valid id")
+                    get_column_names = queryEntry(loginID)
+                    os.system('clear')
+
+                    querySingleEntry(loginID, selection)
+                    delete_verify = str(input(f"\n>> Are you sure you want to remove selection '{selection}'? (y/n)\n>> "))
+                    if delete_verify.lower() == 'y':
+                        removeEntry(loginID, selection)
+                    else:
+                        sys.exit()
+                else:
+                    print(f"Entry with the id '{selection}' is not a valid entry!")
         case 4:
-            print("You have chosen to view an existing entry.")
+            os.system('clear')
+            loginID = app_auth.loginID
+            queryEntry(loginID)
         case _:
             print("You have not selected a valid option.")
 

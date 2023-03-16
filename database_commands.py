@@ -62,6 +62,11 @@ def modifyEntry(column, y, selection):
     database_connection.cursor.execute(sql, (y, selection))
     database_connection.mydb.commit()
 
+def removeEntry(loginID, id):
+    database_connection.cursor.execute("""delete from vault
+                                        where loginID = %s and id = %s""", (loginID, id))
+    database_connection.mydb.commit()
+
 ## User administration SQL statements
 def detectDuplicate(new_user):
     database_connection.cursor.execute("select * from auth where username = %s", (new_user,))
