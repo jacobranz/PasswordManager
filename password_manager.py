@@ -1,6 +1,5 @@
 import os
 import app_auth
-import database_commands
 from database_commands import *
 from datetime import datetime
 
@@ -39,6 +38,7 @@ def userOptions():
     match user_choice:
         case 1:
             print("You have selected to create a new entry.")
+            
             loginID = app_auth.loginID
             username = str(input("Enter username: "))
             password = str(input("Enter password: "))
@@ -46,31 +46,36 @@ def userOptions():
             comment = str(input("Comments: "))
             modified_python = datetime.now()
             modified_sql = modified_python.strftime("%Y-%m-%d")
-            database_commands.newEntry(loginID, username, password, link, comment, modified_sql)
+
+            newEntry(loginID, username, password, link, comment, modified_sql)
         case 2: 
             os.system('clear')
             print(">> What entry would you like to modify?\n")
             loginID = app_auth.getLoginID()
-            database_commands.queryEntry(loginID)
+            queryEntry(loginID)
             user_selection = input(">> ").split(",")
             modify_options = {}
+
             for selection in user_selection:
-                is_valid = database_commands.queryEntryID(selection)
+                is_valid = queryEntryID(selection)
+
                 if int(selection) == is_valid:
                     print(">> You have selected a valid id")
                     get_column_names = queryEntry(loginID)
                     os.system('clear')
                     querySingleEntry(loginID, selection)
                     i = 1
+
                     while i < len(get_column_names):
                         for column in get_column_names:
                             print(f"{i}. {column}")
                             modify_options[i]=column
                             i += 1
                     test = input(f"\n>> What value would you like to modify for selection '{selection}'?\n>> ").split(",")
+
                     for x in test:
                         y = str(input(f">> Update '{modify_options[int(x)]}': "))
-                        database_commands.modifyEntry(modify_options[int(x)], y, selection)
+                        modifyEntry(modify_options[int(x)], y, selection)
                 else:
                     print(f"Entry with the id '{selection}' is not a valid entry!")
                 
