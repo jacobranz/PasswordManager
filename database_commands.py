@@ -56,8 +56,18 @@ def queryEntry(loginID):
             i += 1
     print(all_entries)
     return all_entries.field_names
+
+def querySingleEntry(loginID, selection):
+    database_connection.cursor.execute("""select id, username, pass, link, comment from vault
+                                        where loginID = %s and id = %s""", (loginID, selection))
+    single_entry = database_connection.cursor.fetchall()
+    entry = PrettyTable()
+    entry.field_names = ["id", "username", "pass", "link", "comment"]
+    entry.add_row(single_entry[0])
+    print(entry)
+    return entry.field_names
     
-def modifyEntry(column, y, x):
+def modifyEntry(column, y, selection):
     sql = "update vault set {} = %s where id = %s".format(column)
-    database_connection.cursor.execute(sql, (y, x))
+    database_connection.cursor.execute(sql, (y, selection))
     database_connection.mydb.commit()

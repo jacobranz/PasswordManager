@@ -59,16 +59,18 @@ def userOptions():
                 if int(selection) == is_valid:
                     print(">> You have selected a valid id")
                     get_column_names = queryEntry(loginID)
+                    os.system('clear')
+                    querySingleEntry(loginID, selection)
                     i = 1
                     while i < len(get_column_names):
                         for column in get_column_names:
                             print(f"{i}. {column}")
                             modify_options[i]=column
                             i += 1
-                    test = input("\n>> What value would you like to modify?\n>> ").split(",")
+                    test = input(f"\n>> What value would you like to modify for selection '{selection}'?\n>> ").split(",")
                     for x in test:
                         y = str(input(f">> Update '{modify_options[int(x)]}': "))
-                        database_commands.modifyEntry(modify_options[int(x)], y, int(x))
+                        database_commands.modifyEntry(modify_options[int(x)], y, selection)
                 else:
                     print(f"Entry with the id '{selection}' is not a valid entry!")
                 
