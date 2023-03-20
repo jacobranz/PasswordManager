@@ -1,7 +1,9 @@
 import os
 import app_auth
 from database_commands import *
+from encryption import *
 from datetime import datetime
+import maskpass
 
 def mainMenu():
     os.system('clear')
@@ -41,13 +43,14 @@ def userOptions():
             
             loginID = app_auth.loginID
             username = str(input("Enter username: "))
-            password = str(input("Enter password: "))
+            password = maskpass.askpass(prompt="Enter password: ")
+            encryptString(password)
             link = str(input("Enter link: "))
             comment = str(input("Comments: "))
             modified_python = datetime.now()
             modified_sql = modified_python.strftime("%Y-%m-%d")
 
-            newEntry(loginID, username, password, link, comment, modified_sql)
+            newEntry(loginID, username, encryptString(password), link, comment, modified_sql)
         case 2: 
             os.system('clear')
             print(">> What entry would you like to modify?\n")
