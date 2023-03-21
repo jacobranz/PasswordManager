@@ -20,7 +20,7 @@ class Encryptor():
             return key
         
     def encryptString(self, key, password):
-        password.encode()
+        password = password.encode()
         f = Fernet(key)
         encrypted_password = f.encrypt(password)
         return encrypted_password
