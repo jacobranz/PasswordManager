@@ -5,6 +5,8 @@ from encryption import *
 from datetime import datetime
 import maskpass
 
+keyword_list = ["home", "login"]
+
 def mainMenu():
     os.system('clear')
     print("""
