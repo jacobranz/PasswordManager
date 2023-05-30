@@ -135,6 +135,10 @@ def userOptions():
                 os.system('clear')
                 loginID = app_auth.loginID
                 queryEntry(loginID)
+                while True:
+                    test = input(">> ")
+                    if test == "home":
+                        break
             case 5: 
                 sys.exit()
             case _:
