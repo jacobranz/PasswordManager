@@ -139,8 +139,16 @@ def userOptions():
                 queryEntry(loginID)
                 while True:
                     test = input(">> ")
-                    if test == "home":
-                        break
+                    for keyword in keyword_list:
+                        if test == keyword:
+                            break
+                    else:
+                        if test == '':
+                            pass
+                        else:
+                            print(">> Not a valid command. Please run 'help' for command options.")
+                        continue
+                    break
             case 5: 
                 sys.exit()
             case _:
