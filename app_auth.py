@@ -16,6 +16,12 @@ def signUp():
             continue
         break
 
+def signUp_graphical(new_user, new_user_pass):
+
+    database_commands.detectDuplicate(new_user)
+    database_connection.cursor.execute("insert into auth values (%s, %s)", (new_user, new_user_pass))
+    database_connection.mydb.commit()
+
 def promptCreds():
     while True:
         try:
