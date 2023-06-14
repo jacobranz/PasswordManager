@@ -3,25 +3,26 @@ import database_connection
 import os
 import sys
 from prettytable import PrettyTable
+from tkinter import *
+from tkinter import messagebox
+import main
 
 ## Query functions
 def queryUser(loginID):
     database_connection.cursor.execute("select username from auth where username = %s", (loginID,))
     username_query = database_connection.cursor.fetchall()
     if len(username_query) == 0:
-        os.system('clear')
-        print("ERROR! Username not found!")
+        messagebox.showwarning("No User Found", "No user with this username was found!")
         raise ValueError
 
 def queryPass(loginID, password):
     database_connection.cursor.execute("select pass from auth where username = %s and pass = %s", (loginID, password))
     user_password = database_connection.cursor.fetchall()
     if len(user_password) == 0:
-        os.system('clear')
-        print(f"ERROR! Password for user '{loginID}' is incorrect!")
+        messagebox.showwarning("Invalid Password", "Password for user '{loginID}' is invalid!")
         raise ValueError
     else:
-        print("You have sucessfully authenticated!")
+        messagebox.showinfo("Success", "User has been successfully authenticated!")
 
 def queryEntryID(entry_id):
     database_connection.cursor.execute("select id from vault where id = %s", (entry_id,))
@@ -72,10 +73,8 @@ def detectDuplicate(new_user):
     database_connection.cursor.execute("select * from auth where username = %s", (new_user,))
     new_user_check = database_connection.cursor.fetchall()
     if len(new_user_check) > 0:
-        print(f"A user with the username '{new_user}' already exists!")
-        choose_again = input("Choose another username?(y/n): ")
-        if choose_again == 'y':
-            os.system('clear')
-            raise ValueError
-        else:
-            sys.exit()
+        messagebox.showwarning("Duplicate User", "A user with this username already exists!")
+        return 1
+    else:
+        messagebox.showinfo("Success", "User has been created, return to login screen to login.")
+        return 0

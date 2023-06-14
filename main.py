@@ -1,4 +1,5 @@
 from tkinter import * 
+from tkinter import messagebox
 from app_auth import *
 
 class PassMan(Tk):
@@ -31,16 +32,21 @@ class LoginPage(Frame):
         label = Label(self, text="Login to PassMan")
         label.grid(row=0, column=1)
 
+        loginID = StringVar()
+        password = StringVar()
+
         username_label = Label(self, text="Username")
         password_label = Label(self, text="Password")
-        username_entry = Entry(self)
-        password_entry = Entry(self)
+        username_entry = Entry(self, textvariable=loginID)
+        password_entry = Entry(self, textvariable=password)
 
         username_label.grid(row=1, column=0)
         password_label.grid(row=2, column=0)
         username_entry.grid(row=1, column=1)
         password_entry.grid(row=2, column=1)
 
+        login_button = Button(self, text="Login", command=lambda: login_graphical(loginID.get(), password.get()))
+        login_button.grid(row=7, column=1)
         switch_window_button = Button(self, text="Sign Up", command=lambda: controller.show_frame(SignUp))
         switch_window_button.grid(row=6, column=1)
 
@@ -69,6 +75,7 @@ class SignUp(Frame):
         signup_button.grid(row=7, column=1)
         switch_window_button = Button(self, text="Back to Login", command=lambda: controller.show_frame(LoginPage))
         switch_window_button.grid(row=6, column=1)
+
 
 if __name__ == "__main__":
     test = PassMan()
