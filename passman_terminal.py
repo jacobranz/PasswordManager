@@ -154,8 +154,8 @@ def userOptions():
             case _:
                 print("You have not selected a valid option.")
 
-def main():
+def passman_gui():
     mainMenu()
     userOptions()
 
-main()
+passman_gui()

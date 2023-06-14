@@ -5,7 +5,7 @@ import sys
 from prettytable import PrettyTable
 from tkinter import *
 from tkinter import messagebox
-import main
+import passman_gui
 
 ## Query functions
 def queryUser(loginID):
