@@ -6,7 +6,8 @@ class PassMan(Tk):
         self.title("PassMan")
 
         container = Frame(self, height=300, width=300)
-        container.pack(side="top", fill="both", expand=True)
+        #container.pack(side="top", fill="both", expand=True)
+        container.grid(row=0, column=0)
         
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
@@ -28,29 +29,29 @@ class LoginPage(Frame):
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
         label = Label(self, text="Login to PassMan")
-        label.pack(padx=10, pady=10)
+        label.grid(row=0, column=1)
 
         username_label = Label(self, text="Username")
         password_label = Label(self, text="Password")
         username_entry = Entry(self)
         password_entry = Entry(self)
 
-        username_label.pack(side="left")
-        password_label.pack(side="left")
-        username_entry.pack(side="left")
-        password_entry.pack(side="left")
+        username_label.grid(row=1, column=0)
+        password_label.grid(row=2, column=0)
+        username_entry.grid(row=1, column=1)
+        password_entry.grid(row=2, column=1)
 
         switch_window_button = Button(self, text="Sign Up", command=lambda: controller.show_frame(SignUp))
-        switch_window_button.pack(side="bottom", fill=X)
+        switch_window_button.grid(row=6, column=1)
 
 class SignUp(Frame):
     def __init__(self, parent, controller):
         Frame.__init__(self, parent)
         label = Label(self, text="Sign Up for PassMan")
-        label.pack(padx=10, pady=10)
+        label.grid(row=0, column=1)
 
         switch_window_button = Button(self, text="Back to Login", command=lambda: controller.show_frame(LoginPage))
-        switch_window_button.pack(side="bottom", fill=X)
+        switch_window_button.grid(row=6, column=1)
 
 if __name__ == "__main__":
     test = PassMan()
