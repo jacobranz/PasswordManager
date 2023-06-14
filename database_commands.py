@@ -12,14 +12,14 @@ def queryUser(loginID):
     database_connection.cursor.execute("select username from auth where username = %s", (loginID,))
     username_query = database_connection.cursor.fetchall()
     if len(username_query) == 0:
-        messagebox.showwarning("No User Found", "No user with this username was found!")
+        messagebox.showwarning("No User Found", "No user with this username '" + loginID + "' was found!")
         raise ValueError
 
 def queryPass(loginID, password):
     database_connection.cursor.execute("select pass from auth where username = %s and pass = %s", (loginID, password))
     user_password = database_connection.cursor.fetchall()
     if len(user_password) == 0:
-        messagebox.showwarning("Invalid Password", "Password for user '{loginID}' is invalid!")
+        messagebox.showwarning("Invalid Password", "Password for user '" + loginID + "' is invalid!")
         raise ValueError
     else:
         messagebox.showinfo("Success", "User has been successfully authenticated!")
