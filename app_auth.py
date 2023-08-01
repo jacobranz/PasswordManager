@@ -11,6 +11,7 @@ def signUp_graphical(new_user, new_user_pass):
 def login_graphical(loginID, password):
     database_commands.queryUser(loginID)
     database_commands.queryPass(loginID, password)
+    return loginID
 
 #def main():
     #signUp()

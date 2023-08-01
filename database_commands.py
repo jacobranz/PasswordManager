@@ -33,15 +33,7 @@ def queryEntry(loginID):
     database_connection.cursor.execute("""select id, username, pass, link, comment from vault
                                         where loginID = %s""", (loginID,))
     user_info = database_connection.cursor.fetchall()
-    all_entries = PrettyTable()
-    all_entries.field_names = ["id", "username", "pass", "link", "comment"]
-    i = 0
-    while i < len(user_info):
-        for entry in user_info:
-            all_entries.add_row(entry)
-            i += 1
-    print(all_entries)
-    return all_entries.field_names
+    return user_info
 
 def querySingleEntry(loginID, selection):
     database_connection.cursor.execute("""select id, username, pass, link, comment from vault

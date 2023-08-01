@@ -1,13 +1,19 @@
 from tkinter import * 
 from tkinter import messagebox
 from app_auth import *
+import customtkinter
 
-class PassMan(Tk):
-    def __init__(self, *args, **kwargs):
-        Tk.__init__(self, *args, **kwargs)
+user_entries = ()
+
+def append_to_list(entry):
+    user_entries += entry
+
+class PassMan(customtkinter.CTk):
+    def __init__(self):
+        super().__init__()
         self.title("PassMan")
 
-        container = Frame(self, height=500, width=500)
+        container = customtkinter.CTkFrame(self, height=500, width=500)
         container.grid(row=0, column=0)
         
         container.grid_rowconfigure(0, weight=1)
@@ -15,7 +21,7 @@ class PassMan(Tk):
 
         self.frames = {}
 
-        for F in (LoginPage, SignUp):
+        for F in (LoginPage, SignUp, MainPage, TestLoggedIn, Table):
             frame = F(container, self)
             self.frames[F] = frame
             frame.grid(row=0, column=0, sticky="nsew")
@@ -26,44 +32,46 @@ class PassMan(Tk):
         frame = self.frames[cont]
         frame.tkraise()
 
-class LoginPage(Frame):
+class LoginPage(customtkinter.CTkFrame):
     def __init__(self, parent, controller):
-        Frame.__init__(self, parent)
-        label = Label(self, text="Login to PassMan")
+        customtkinter.CTkFrame.__init__(self, parent)
+        label = customtkinter.CTkLabel(self, text="Login to PassMan")
         label.grid(row=0, column=1)
 
         loginID = StringVar()
         password = StringVar()
 
-        username_label = Label(self, text="Username")
-        password_label = Label(self, text="Password")
-        username_entry = Entry(self, textvariable=loginID)
-        password_entry = Entry(self, textvariable=password)
+        username_label = customtkinter.CTkLabel(self, text="Username")
+        password_label = customtkinter.CTkLabel(self, text="Password")
+        username_entry = customtkinter.CTkEntry(self, textvariable=loginID)
+        password_entry = customtkinter.CTkEntry(self, textvariable=password)
 
         username_label.grid(row=1, column=0)
         password_label.grid(row=2, column=0)
         username_entry.grid(row=1, column=1)
         password_entry.grid(row=2, column=1)
 
-        login_button = Button(self, text="Login", command=lambda: login_graphical(loginID.get(), password.get()))
+        login_button = customtkinter.CTkButton(self, text="Login", command=lambda: [login_graphical(loginID.get(), password.get()), controller.show_frame(Table)])
         login_button.grid(row=7, column=1)
-        switch_window_button = Button(self, text="Sign Up", command=lambda: controller.show_frame(SignUp))
+        switch_window_button = customtkinter.CTkButton(self, text="Sign Up", command=lambda: controller.show_frame(SignUp))
         switch_window_button.grid(row=6, column=1)
+        test_button = customtkinter.CTkButton(self, text="Test", command=lambda: [append_to_list(database_commands.queryEntry(loginID.get())), print(user_entries)])
+        test_button.grid(row=8, column=1)
 
-class SignUp(Frame):
+class SignUp(customtkinter.CTkFrame):
     def __init__(self, parent, controller):
-        Frame.__init__(self, parent)
-        label = Label(self, text="Sign Up for PassMan")
+        customtkinter.CTkFrame.__init__(self, parent)
+        label = customtkinter.CTkLabel(self, text="Sign Up for PassMan")
         label.grid(row=0, column=1)
 
         new_user = StringVar()
         new_user_pass = StringVar()
 
-        username_label = Label(self, text="Username")
-        password_label = Label(self, text="Password")
-        password_verify_label = Label(self, text="Re-enter Password")
-        username_entry = Entry(self, textvariable=new_user)
-        password_entry = Entry(self, textvariable=new_user_pass)
+        username_label = customtkinter.CTkLabel(self, text="Username")
+        password_label = customtkinter.CTkLabel(self, text="Password")
+        password_verify_label = customtkinter.CTkLabel(self, text="Re-enter Password")
+        username_entry = customtkinter.CTkEntry(self, textvariable=new_user)
+        password_entry = customtkinter.CTkEntry(self, textvariable=new_user_pass)
 
         username_label.grid(row=1, column=0)
         password_label.grid(row=2, column=0)
@@ -71,10 +79,38 @@ class SignUp(Frame):
         password_entry.grid(row=2, column=1)
         password_verify_label.grid(row=3, column=0)
 
-        signup_button = Button(self, text="Sign Up", command=lambda: signUp_graphical(new_user.get(), new_user_pass.get()))
+        signup_button = customtkinter.CTkButton(self, text="Sign Up", command=lambda: signUp_graphical(new_user.get(), new_user_pass.get()))
         signup_button.grid(row=7, column=1)
-        switch_window_button = Button(self, text="Back to Login", command=lambda: controller.show_frame(LoginPage))
+        switch_window_button = customtkinter.CTkButton(self, text="Back to Login", command=lambda: controller.show_frame(LoginPage))
         switch_window_button.grid(row=6, column=1)
+
+class MainPage(customtkinter.CTkFrame):
+    def __init__(self, parent, controller):
+        customtkinter.CTkFrame.__init__(self, parent)
+        label = customtkinter.CTkLabel(self, text="Welcome to PassMan!")
+        label.grid(row=0, column=1)
+
+class TestLoggedIn(customtkinter.CTkFrame):
+    def __init__(self, parent, controller):
+        customtkinter.CTkFrame.__init__(self, parent)
+        label = customtkinter.CTkLabel(self, text="You are now logged in!")
+        label.grid(row=0, column=1)
+
+class Table(customtkinter.CTkFrame):
+
+    def __init__(self, parent, controller):
+        customtkinter.CTkFrame.__init__(self, parent)
+        label = customtkinter.CTkLabel(self, text="Table View")
+        label.grid(row=0, column=1)
+
+        # code for creating table
+        for i in range(len(user_entries)):
+            for j in range(len(user_entries[0])):
+                
+                e = customtkinter.CTkEntry(self)
+                
+                e.grid(row=i, column=j)
+                e.insert(END, user_entries[i][j]))
 
 
 if __name__ == "__main__":
