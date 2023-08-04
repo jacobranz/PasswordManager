@@ -6,7 +6,9 @@ import customtkinter
 user_entries = ()
 
 def append_to_list(entry):
-    user_entries += entry
+    global user_entries
+    for i in list(entry):
+        user_entries += i
 
 class PassMan(customtkinter.CTk):
     def __init__(self):
@@ -55,8 +57,9 @@ class LoginPage(customtkinter.CTkFrame):
         login_button.grid(row=7, column=1)
         switch_window_button = customtkinter.CTkButton(self, text="Sign Up", command=lambda: controller.show_frame(SignUp))
         switch_window_button.grid(row=6, column=1)
-        test_button = customtkinter.CTkButton(self, text="Test", command=lambda: [append_to_list(database_commands.queryEntry(loginID.get())), print(user_entries)])
+        test_button = customtkinter.CTkButton(self, text="Test", command=lambda: append_to_list(database_commands.queryEntry(loginID.get())))
         test_button.grid(row=8, column=1)
+        # command=lambda: [append_to_list(database_commands.queryEntry(loginID.get())), print(user_entries)]
 
 class SignUp(customtkinter.CTkFrame):
     def __init__(self, parent, controller):
@@ -110,8 +113,7 @@ class Table(customtkinter.CTkFrame):
                 e = customtkinter.CTkEntry(self)
                 
                 e.grid(row=i, column=j)
-                e.insert(END, user_entries[i][j]))
-
+                e.insert(END, user_entries[i][j])
 
 if __name__ == "__main__":
     test = PassMan()
