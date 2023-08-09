@@ -10,6 +10,11 @@ def append_to_list(entry):
     for i in list(entry):
         user_entries += i
 
+def view_list(entry):
+    global user_entries
+    for i in list(entry):
+        print(i)
+
 class PassMan(customtkinter.CTk):
     def __init__(self):
         super().__init__()
@@ -40,6 +45,8 @@ class LoginPage(customtkinter.CTkFrame):
         label = customtkinter.CTkLabel(self, text="Login to PassMan")
         label.grid(row=0, column=1)
 
+        global loginID
+
         loginID = StringVar()
         password = StringVar()
 
@@ -53,11 +60,11 @@ class LoginPage(customtkinter.CTkFrame):
         username_entry.grid(row=1, column=1)
         password_entry.grid(row=2, column=1)
 
-        login_button = customtkinter.CTkButton(self, text="Login", command=lambda: [login_graphical(loginID.get(), password.get()), controller.show_frame(Table)])
+        login_button = customtkinter.CTkButton(self, text="Login", command=lambda: [login_graphical(loginID.get(), password.get()), controller.show_frame(MainPage)])
         login_button.grid(row=7, column=1)
         switch_window_button = customtkinter.CTkButton(self, text="Sign Up", command=lambda: controller.show_frame(SignUp))
         switch_window_button.grid(row=6, column=1)
-        test_button = customtkinter.CTkButton(self, text="Test", command=lambda: append_to_list(database_commands.queryEntry(loginID.get())))
+        test_button = customtkinter.CTkButton(self, text="Test", command=lambda: [append_to_list(database_commands.queryEntry(loginID.get())) ,view_list(user_entries)])
         test_button.grid(row=8, column=1)
         # command=lambda: [append_to_list(database_commands.queryEntry(loginID.get())), print(user_entries)]
 
@@ -93,6 +100,13 @@ class MainPage(customtkinter.CTkFrame):
         label = customtkinter.CTkLabel(self, text="Welcome to PassMan!")
         label.grid(row=0, column=1)
 
+        view_entries = customtkinter.CTkButton(self, text="View Entries", command=lambda: [append_to_list(database_commands.queryEntry(loginID.get())), controller.show_frame(Table)])
+        view_entries.grid(row=1, column=1)
+        modify_entries = customtkinter.CTkButton(self, text="Modify Entries")
+        modify_entries.grid(row=2, column=1)
+        add_entries = customtkinter.CTkButton(self, text="Add Entries")
+        add_entries.grid(row=3, column=1)
+
 class TestLoggedIn(customtkinter.CTkFrame):
     def __init__(self, parent, controller):
         customtkinter.CTkFrame.__init__(self, parent)
@@ -100,11 +114,12 @@ class TestLoggedIn(customtkinter.CTkFrame):
         label.grid(row=0, column=1)
 
 class Table(customtkinter.CTkFrame):
-
     def __init__(self, parent, controller):
         customtkinter.CTkFrame.__init__(self, parent)
         label = customtkinter.CTkLabel(self, text="Table View")
         label.grid(row=0, column=1)
+
+        view_list(user_entries)
 
         # code for creating table
         for i in range(len(user_entries)):
