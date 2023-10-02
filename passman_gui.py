@@ -100,7 +100,7 @@ class MainPage(customtkinter.CTkFrame):
         label = customtkinter.CTkLabel(self, text="Welcome to PassMan!")
         label.grid(row=0, column=1)
 
-        view_entries = customtkinter.CTkButton(self, text="View Entries", command=lambda: [append_to_list(database_commands.queryEntry(loginID.get())), controller.show_frame(Table)])
+        view_entries = customtkinter.CTkButton(self, text="View Entries", command=lambda: [controller.show_frame(Table), Table.populate(data=user_entries)])
         view_entries.grid(row=1, column=1)
         modify_entries = customtkinter.CTkButton(self, text="Modify Entries")
         modify_entries.grid(row=2, column=1)
@@ -118,17 +118,16 @@ class Table(customtkinter.CTkFrame):
         customtkinter.CTkFrame.__init__(self, parent)
         label = customtkinter.CTkLabel(self, text="Table View")
         label.grid(row=0, column=1)
-
-        view_list(user_entries)
-
+        
+    def populate(self, data):
         # code for creating table
-        for i in range(len(user_entries)):
-            for j in range(len(user_entries[0])):
+        for i in range(len(data)):
+            for j in range(len(data[0])):
                 
                 e = customtkinter.CTkEntry(self)
                 
                 e.grid(row=i, column=j)
-                e.insert(END, user_entries[i][j])
+                e.insert(END, data[i][j])
 
 if __name__ == "__main__":
     test = PassMan()
