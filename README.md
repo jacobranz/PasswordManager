@@ -1,2 +1,0 @@
-# PassMan
-Documentation coming soon.

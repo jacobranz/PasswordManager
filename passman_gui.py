@@ -1,7 +1,9 @@
 from tkinter import * 
 from tkinter import messagebox
+from tkinter import ttk
 from app_auth import *
 import customtkinter
+from Testing.table_view.display_table import *
 
 user_entries = ()
 
@@ -28,7 +30,7 @@ class PassMan(customtkinter.CTk):
 
         self.frames = {}
 
-        for F in (LoginPage, SignUp, MainPage, TestLoggedIn, Table):
+        for F in (LoginPage, SignUp, MainPage):
             frame = F(container, self)
             self.frames[F] = frame
             frame.grid(row=0, column=0, sticky="nsew")
@@ -100,7 +102,7 @@ class MainPage(customtkinter.CTkFrame):
         label = customtkinter.CTkLabel(self, text="Welcome to PassMan!")
         label.grid(row=0, column=1)
 
-        view_entries = customtkinter.CTkButton(self, text="View Entries", command=lambda: [controller.show_frame(Table), Table.populate(data=user_entries)])
+        view_entries = customtkinter.CTkButton(self, text="View Entries", command=lambda: Table())
         view_entries.grid(row=1, column=1)
         modify_entries = customtkinter.CTkButton(self, text="Modify Entries")
         modify_entries.grid(row=2, column=1)
@@ -113,21 +115,7 @@ class TestLoggedIn(customtkinter.CTkFrame):
         label = customtkinter.CTkLabel(self, text="You are now logged in!")
         label.grid(row=0, column=1)
 
-class Table(customtkinter.CTkFrame):
-    def __init__(self, parent, controller):
-        customtkinter.CTkFrame.__init__(self, parent)
-        label = customtkinter.CTkLabel(self, text="Table View")
-        label.grid(row=0, column=1)
-        
-    def populate(self, data):
-        # code for creating table
-        for i in range(len(data)):
-            for j in range(len(data[0])):
-                
-                e = customtkinter.CTkEntry(self)
-                
-                e.grid(row=i, column=j)
-                e.insert(END, data[i][j])
+
 
 if __name__ == "__main__":
     test = PassMan()
