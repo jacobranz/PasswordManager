@@ -4,11 +4,13 @@ from .root import PassMan
 from .home import HomeView
 from .login import LoginPage
 from .signup import SignUp
+from .notify import Notify
 
 class Frames(TypedDict):
     login: LoginPage
     SignUp: SignUp
     home: HomeView
+    nofify: Notify
 
 class View:
     def __init__(self):
@@ -18,6 +20,7 @@ class View:
         self._add_frame(SignUp, "signup")
         self._add_frame(LoginPage, "login")
         self._add_frame(HomeView, "home")
+        self._add_frame(Notify, "notify")
 
     def _add_frame(self, Frame, name: str) -> None:
         self.frames[name] = Frame(self.root)

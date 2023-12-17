@@ -1,5 +1,5 @@
 from models.main import Model
-from models.auth import User
+from models.auth import User, Password
 from views.main import View
 
 
@@ -19,10 +19,11 @@ class LoginController:
         self.view.switch("signup")
 
     def signin(self) -> None:
-        username = self.frame.username_input.get()
-        pasword = self.frame.password_input.get()
-        data = {"username": username, "password": pasword}
+        username = self.frame.username_entry.get()
+        user_pasword = self.frame.password_entry.get()
+        data = {"username": username, "password": user_pasword}
         print(data)
-        self.frame.password_input.delete(0, last=len(pasword))
+        self.frame.password_entry.delete(0, len(user_pasword))
         user: User = {"username": data["username"]}
-        self.model.auth.login(user)
+        password: Password = {"password": data["password"]}
+        self.model.auth.login(user, password)
