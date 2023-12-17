@@ -20,6 +20,6 @@ class HomeController:
         current_user = self.model.auth.current_user
         if current_user:
             username = current_user["username"]
-            self.frame.greeting.config(text=f"Welcome, {username}!")
+            self.frame.greeting.configure(text=f"Welcome, {username}!")
         else:
-            self.frame.greeting.config(text=f"")
+            self.frame.greeting.configure(text=f"")

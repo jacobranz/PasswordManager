@@ -20,9 +20,9 @@ class SignUpController:
 
     def signup(self) -> None:
         data = {
-            "fullname": self.frame.fullname_input.get(),
-            "username": self.frame.username_input.get(),
-            "password": self.frame.password_input.get(),
+            "fullname": self.frame.fullname_entry.get(),
+            "username": self.frame.username_entry.get(),
+            "password": self.frame.password_entry.get(),
             "has_agreed": self.frame.has_agreed.get(),
         }
         print(data)
