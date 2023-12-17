@@ -3,7 +3,7 @@ from tkinter import messagebox
 from tkinter import ttk
 from app_auth import *
 import customtkinter
-from Testing.table_view.display_table import *
+#from Testing.table_view.display_table import *
 
 user_entries = ()
 
@@ -42,8 +42,9 @@ class PassMan(customtkinter.CTk):
         frame.tkraise()
 
 class LoginPage(customtkinter.CTkFrame):
-    def __init__(self, parent, controller):
-        customtkinter.CTkFrame.__init__(self, parent)
+    def __init__(self, master, **kwargs):
+        super().__init__(master, **kwargs)
+
         label = customtkinter.CTkLabel(self, text="Login to PassMan")
         label.grid(row=0, column=1)
 
@@ -71,8 +72,8 @@ class LoginPage(customtkinter.CTkFrame):
         # command=lambda: [append_to_list(database_commands.queryEntry(loginID.get())), print(user_entries)]
 
 class SignUp(customtkinter.CTkFrame):
-    def __init__(self, parent, controller):
-        customtkinter.CTkFrame.__init__(self, parent)
+    def __init__(self, master, **kwargs):
+        customtkinter.CTkFrame.__init__(self, master, **kwargs)
         label = customtkinter.CTkLabel(self, text="Sign Up for PassMan")
         label.grid(row=0, column=1)
 
@@ -97,8 +98,8 @@ class SignUp(customtkinter.CTkFrame):
         switch_window_button.grid(row=6, column=1)
 
 class MainPage(customtkinter.CTkFrame):
-    def __init__(self, parent, controller):
-        customtkinter.CTkFrame.__init__(self, parent)
+    def __init__(self, master, **kwargs):
+        super().__init__(self, master, **kwargs)
         label = customtkinter.CTkLabel(self, text="Welcome to PassMan!")
         label.grid(row=0, column=1)
 
